@@ -1,0 +1,38 @@
+Letra e
+
+fun main() {
+    val produtos = mutableListOf<Produto>() // Lista para armazenar produtos
+
+    while (true) {
+        println("=== Sistema de Cadastro de Produtos ===")
+        println("1. Cadastrar Produto")
+        println("2. Listar Produtos")
+        println("3. Alterar Produto")
+        println("4. Excluir Produto")
+        println("5. Vender Produto")
+        println("6. Sair")
+        println("Escolha uma opção: ")
+
+        when (readLine()!!.trim()) {
+            "1" -> cadastrarProduto(produtos)
+            "2" -> listarProdutos(produtos)
+            "3" -> alterarProduto(produtos)
+            "4" -> excluirProduto(produtos)
+            "5" -> realizarVenda(produtos)
+            "6" -> {
+                println("Saindo do sistema.")
+                return
+  }
+
+
+
+fun listarProdutos(produtos: List<Produto>) {
+    if (produtos.isEmpty()) {
+        println("Nenhum produto cadastrado.")
+    } else {
+        println("=== Produtos Cadastrados ===")
+        produtos.forEach { produto ->
+            println("Código: ${produto.codigo}, Nome: ${produto.nome}, Valor Unitário: R$ ${"%.2f".format(produto.valorUnitario)}, Tipo de Unidade: ${produto.tipoUnidade}")
+        }
+    }
+}
