@@ -1,0 +1,67 @@
+Kotlin, letra (a)
+data class Produto(
+    val codigo: String,
+    val nome: String,
+    val valorUnitario: Double,
+    val tipoUnidade: String
+)
+
+// Função principal
+fun main() {
+    val produtos = mutableListOf<Produto>() // Lista para armazenar produtos
+
+    while (true) {
+        println("=== Sistema de Cadastro de Produtos ===")
+        println("1. Cadastrar Produto")
+        println("2. Listar Produtos")
+        println("3. Sair")
+        println("Escolha uma opção: ")
+
+        when (readLine()!!.trim()) {
+            "1" -> cadastrarProduto(produtos)
+            "2" -> listarProdutos(produtos)
+            "3" -> {
+                println("Saindo do sistema.")
+                return // Encerra o programa
+            }
+            else -> println("Opção inválida. Tente novamente.")
+        }
+    }
+}
+
+// Função para cadastrar um produto
+fun cadastrarProduto(produtos: MutableList<Produto>) {
+    println("Digite o código do produto (único): ")
+    val codigo = readLine()!!.trim()
+
+    println("Digite o nome do produto: ")
+    val nome = readLine()!!.trim()
+
+    println("Digite o valor unitário do produto: ")
+    val valorUnitario = readLine()!!.trim().toDoubleOrNull()
+        ?: return println("Erro: Valor unitário inválido. Tente novamente.")
+
+    // Retorna se o valor unitário for negativo
+    if (valorUnitario < 0) return println("Erro: O valor unitário não pode ser negativo. Tente novamente.")
+
+    println("Digite o tipo de unidade do produto: ")
+    val tipoUnidade = readLine()!!.trim()
+
+    // Cria o produto e adiciona à lista
+    val produto = Produto(codigo, nome, valorUnitario, tipoUnidade)
+    produtos.add(produto)
+
+    println("Produto cadastrado com sucesso!")
+}
+
+// Função para listar os produtos cadastrados
+fun listarProdutos(produtos: List<Produto>) {
+    if (produtos.isEmpty()) {
+        println("Nenhum produto cadastrado.")
+    } else {
+        println("=== Produtos Cadastrados ===")
+        for (produto in produtos) {
+            println("Código: ${produto.codigo}, Nome: ${produto.nome}, Valor Unitário: R$ ${"%.2f".format(produto.valorUnitario)}, Tipo de Unidade: ${produto.tipoUnidade}")
+        }
+    }
+}
