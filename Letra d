@@ -1,0 +1,66 @@
+Letra d
+fun main() {
+    val produtos = mutableListOf<Produto>() // Lista para armazenar produtos
+
+    while (true) {
+        println("=== Sistema de Cadastro de Produtos ===")
+        println("1. Cadastrar Produto")
+        println("2. Listar Produtos")
+        println("3. Alterar Produto")
+        println("4. Excluir Produto")
+        println("5. Vender Produto")
+        println("6. Sair")
+        println("Escolha uma opção: ")
+
+        when (readLine()!!.trim()) {
+            "1" -> cadastrarProduto(produtos)
+            "2" -> listarProdutos(produtos)
+            "3" -> alterarProduto(produtos)
+            "4" -> excluirProduto(produtos)
+            "5" -> realizarVenda(produtos)
+            "6" -> {
+                println("Saindo do sistema.")
+                return // Encerra o programa
+            }
+            else -> println("Opção inválida. Tente novamente.")
+        }
+    }
+}
+fun realizarVenda(produtos: List<Produto>) {
+    println("Digite o código do produto que deseja vender: ")
+    val codigo = readLine()!!.trim()
+
+
+    val produto = produtos.find { it.codigo == codigo } ?: return println("Produto não encontrado.")
+
+    println("Digite a quantidade do produto: ")
+    val quantidade = readLine()!!.trim().toIntOrNull() ?: return println("Quantidade inválida.")
+
+    val total = produto.valorUnitario * quantidade
+    println("Total a pagar: R$ ${"%.2f".format(total)}")
+
+    println("Escolha a forma de pagamento:")
+    println("1. Pix")
+    println("2. Cartão de Débito")
+    println("3. Cartão de Crédito")
+    println("4. Dinheiro")
+
+    val formaPagamento = readLine()!!.trim()
+
+    when (formaPagamento) {
+        "1" -> {
+            println("Por favor, mostre o código do Pix: [XXXX-XXXX-XXXX]")
+        }
+        "2", "3" -> {
+            println("Pagamento por cartão. Valor a ser pago: R$ ${"%.2f".format(total)}")
+        }
+        "4" -> {
+            println("Digite o valor que foi recebido: ")
+            val valorRecebido = readLine()!!.trim().toDoubleOrNull() ?: return println("Valor inválido.")
+            val troco = valorRecebido - total
+            if (troco < 0) {
+                println("Valor recebido é insuficiente. Tente novamente.")
+            } else {
+                println("Troco: R$ ${"%.2f".format(troco)}")
+            }
+        }
