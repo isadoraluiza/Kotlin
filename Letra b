@@ -1,0 +1,73 @@
+Letra b
+data class Produto(
+    val codigo: String,
+    val nome: String,
+    val valorUnitario: Double,
+    val tipoUnidade: String
+)
+
+// Função principal
+fun main() {
+    val produtos = mutableListOf<Produto>() // Lista para armazenar produtos
+
+    while (true) {
+        println("=== Sistema de Cadastro de Produtos ===")
+        println("1. Cadastrar Produto")
+        println("2. Listar Produtos")
+        println("3. Alterar Produto")
+        println("4. Excluir Produto")
+        println("5. Sair")
+        println("Escolha uma opção: ")
+
+        when (readLine()!!.trim()) {
+            "1" -> cadastrarProduto(produtos)
+            "2" -> listarProdutos(produtos)
+            "3" -> alterarProduto(produtos)
+            "4" -> excluirProduto(produtos)
+            "5" -> {
+                println("Saindo do sistema.")
+                return // Encerra o programa
+            }
+            else -> println("Opção inválida. Tente novamente.")
+        }
+    }
+}
+
+
+    
+
+// Função para alterar um produto
+fun alterarProduto(produtos: MutableList<Produto>) {
+    println("Digite o código do produto que deseja alterar: ")
+    val codigo = readLine()!!.trim()
+
+    // Encontra o produto
+    val produto = produtos.find { it.codigo == codigo } ?: return println("Produto não encontrado.")
+
+    println("Produto encontrado: $produto")
+
+    // Lê os novos valores
+    println("Digite o novo nome do produto (ou pressione Enter para manter o atual): ")
+    val novoNome = readLine()!!.trim()
+
+    println("Digite o novo valor unitário do produto (ou pressione Enter para manter o atual): ")
+    val novoValorUnitario = readLine()!!.trim().toDoubleOrNull()
+
+    println("Digite o novo tipo de unidade do produto (ou pressione Enter para manter o atual): ")
+    val novoTipoUnidade = readLine()!!.trim()
+
+    // Atualiza os valores do produto usando o operador Elvis
+    val produtoAtualizado = Produto(
+        codigo,
+        novoNome.takeIf { it.isNotBlank() } ?: produto.nome, // Usa o novo nome ou mantém o atual
+        novoValorUnitario ?: produto.valorUnitario, // Usa o novo valor ou mantém o atual
+        novoTipoUnidade.takeIf { it.isNotBlank() } ?: produto.tipoUnidade // Usa o novo tipo ou mantém o atual
+    )
+
+    // Atualiza a lista de produtos
+    val index = produtos.indexOf(produto)
+    produtos[index] = produtoAtualizado
+
+    println("Produto atualizado com sucesso!")
+}
+
