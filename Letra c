@@ -1,0 +1,46 @@
+Letra c
+fun main() {
+    val produtos = mutableListOf<Produto>() // Lista para armazenar produtos
+
+    while (true) {
+        println("=== Sistema de Cadastro de Produtos ===")
+        println("1. Cadastrar Produto")
+        println("2. Listar Produtos")
+        println("3. Alterar Produto")
+        println("4. Excluir Produto")
+        println("5. Vender Produto")
+        println("6. Sair")
+        println("Escolha uma opção: ")
+
+        when (readLine()!!.trim()) {
+            "1" -> cadastrarProduto(produtos)
+            "2" -> listarProdutos(produtos)
+            "3" -> alterarProduto(produtos)
+            "4" -> excluirProduto(produtos)
+            "5" -> realizarVenda(produtos)
+            "6" -> {
+                println("Saindo do sistema.")
+                return // Encerra o programa
+            }
+            else -> println("Opção inválida. Tente novamente.")
+        }
+    }
+}
+fun realizarVenda(produtos: List<Produto>) {
+    println("Digite o código do produto que deseja vender: ")
+    val codigo = readLine()!!.trim()
+
+    // Encontra o produto
+    val produto = produtos.find { it.codigo == codigo } ?: return println("Produto não encontrado.")
+
+    println("Produto encontrado: ${produto.nome}")
+    println("Digite a quantidade que deseja vender: ")
+    
+    val quantidade = readLine()!!.trim().toIntOrNull() ?: return println("Quantidade inválida. Tente novamente.")
+    
+    // Calcula o valor total da venda
+    val valorTotal = produto.valorUnitario * quantidade
+
+    println("Venda realizada com sucesso!")
+    println("Produto: ${produto.nome}, Quantidade: $quantidade, Valor Total: R$ ${"%.2f".format(valorTotal)}")
+  }
